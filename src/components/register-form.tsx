@@ -26,6 +26,11 @@ const RegisterForm: React.FC = () => {
             }
         })
     };
+
+    const getData = async () => {
+        const res = await axios.get('http://devtest.lavina.tech/test/books')
+        console.log(res)
+    }
     return (
         <Form
             name="layout-multiple-horizontal"
@@ -86,6 +91,7 @@ const RegisterForm: React.FC = () => {
                     Button
                 </Button>
             </Form.Item>
+            <button onClick={getData}>get books</button>
             <h2 className='text-[14px] text-[#24272C] text-center leading-[120%] font-[300]'>Already signed up? <Link to={'/'} className='text-[#1B28BC]'>Go to sign in.</Link></h2>
         </Form>
     )

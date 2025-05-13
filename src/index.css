@@ -36,3 +36,7 @@ body {
     color: #151515;
     border-radius: 6px !important;
 }
+.add__btn {
+    border: none !important;
+    width: auto ;
+}
