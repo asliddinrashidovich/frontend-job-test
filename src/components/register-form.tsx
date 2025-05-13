@@ -14,7 +14,7 @@ type FieldType = {
 const RegisterForm: React.FC = () => {
     const onFinish:  FormProps<FieldType>['onFinish'] = async (values) => {
         const {email, name, secret} = values
-        await axios.post(`https://no23.lavina.tech/signup`, {name, email, secret, key: 'Mason1'}).then((res) => {
+        await axios.post(`http://devtest.lavina.tech/test/:http://localhost:5173/signup`, {name, email, secret, key: 'Mason1'}).then((res) => {
             console.log(res)
             // localStorage.setItem('user', JSON.stringify(res.data.user))
             // localStorage.setItem('token', res.data.accessToken)

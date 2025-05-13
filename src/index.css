@@ -40,3 +40,8 @@ body {
     border: none !important;
     width: auto ;
 }
+.close_btn {
+    background-color: #fff !important;
+    color: #6200EE !important;
+    border: 1px solid #6200EE ;
+}
