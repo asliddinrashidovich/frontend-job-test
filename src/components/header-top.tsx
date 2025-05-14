@@ -54,7 +54,7 @@ function HeaderTop() {
   return (
     <section className="px-5 md:px-10 py-12">
         <div className="max-w-[1240px] mx-auto flex justify-between items-center pb-3">
-            <h2 className="text-[36px] font-[700] leading-[100%] text-[#fff]">You’ve got <span className="text-[#6200EE]">{books.length} book</span>  </h2>
+            <h2 className="text-[36px] font-[700] leading-[100%] text-[#fff]">You’ve got <span className="text-[#6200EE]">{books?.length} book</span>  </h2>
             <Button onClick={showModal} className="add__btn">
                 <FaPlus />
                 <span className=" text-[16px] font-[500] leading-[100%]">Create a book</span>
