@@ -2,7 +2,7 @@ import type { FormProps } from 'antd';
 import { Button, Form, Input } from 'antd';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 type FieldType = {
   email?: string;
@@ -11,12 +11,12 @@ type FieldType = {
 
 
 const LoginForm: React.FC = () => {
+    const navigate = useNavigate()
     const onFinish:  FormProps<FieldType>['onFinish'] = async (values) => {
         const {email, password} = values
-        await axios.post(`https://api.ashyo.fullstackdev.uz/auth/login`, {password, email}).then((res) => {
-            console.log(res)
-            localStorage.setItem('user', JSON.stringify(res.data.user))
-            localStorage.setItem('token', res.data.accessToken)
+        await axios.post(`https://green-shop-backend.onrender.com/api/user/sign-in?access_token=6506e8bd6ec24be5de357927`, {password, email}).then((res) => {
+            navigate("/dashboard")
+            localStorage.setItem('token', res.data.data.token)
         }).catch((err) => {
             if(err.status == 409) {
                 toast.error('User Not found, please Try again')
@@ -32,19 +32,19 @@ const LoginForm: React.FC = () => {
             requiredMark={false}
             onFinish={(values) => onFinish(values)}
             initialValues={{
-                username: "",
+                email: "",
                 password: ""
             }}
         >
             <h2 className='text-[36px] font-[700] leading-[100%] text-[#151515] text-center mb-[36px]'>Sign in</h2>
             <Form.Item
-                label="Username"
-                name="username"
+                label="Email"
+                name="email"
                 rules={[{ required: true }]}
                 layout="vertical"
                 className='h-[60px] w-[270px] sm:w-[374px] username_label'
             >
-                <Input placeholder='Enter your username'/>
+                <Input placeholder='Enter your email' type='email'/>
             </Form.Item>
 
             <Form.Item

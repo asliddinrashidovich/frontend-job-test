@@ -2,22 +2,23 @@ import type { FormProps } from 'antd';
 import { Button, Form, Input } from 'antd';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 type FieldType = {
   email?: string;
   name?: string;
-  secret?: string;
+  surname?: string;
+  password?: string;
 };
 
 
 const RegisterForm: React.FC = () => {
+    const navigate = useNavigate()
     const onFinish:  FormProps<FieldType>['onFinish'] = async (values) => {
-        const {email, name, secret} = values
-        await axios.post(`http://devtest.lavina.tech/test/:http://localhost:5173/signup`, {name, email, secret, key: 'Mason1'}).then((res) => {
-            console.log(res)
-            // localStorage.setItem('user', JSON.stringify(res.data.user))
-            // localStorage.setItem('token', res.data.accessToken)
+        const {name, surname, email, password} = values
+        await axios.post(`https://green-shop-backend.onrender.com/api/user/sign-up?access_token=6506e8bd6ec24be5de357927`, {name, surname, password, email}).then((res) => {
+            navigate("/dashboard")
+            localStorage.setItem('token', res.data.data.token)
         }).catch((err) => {
             if(err.status == 409) {
                 toast.error('User Not found, please Try again')
@@ -27,33 +28,38 @@ const RegisterForm: React.FC = () => {
         })
     };
 
-    const getData = async () => {
-        const res = await axios.get('http://devtest.lavina.tech/test/books')
-        console.log(res)
-    }
     return (
-        <Form
+       <Form
             name="layout-multiple-horizontal"
             layout="horizontal"
             requiredMark={false}
             onFinish={(values) => onFinish(values)}
             initialValues={{
-                email: "",
                 name: "",
-                secret: ""
+                surname: "",
+                email: "",
+                password: ""
             }}
         >
-            <h2 className='text-[36px] font-[700] leading-[100%] text-[#151515] text-center mb-[36px]'>Sign up</h2>
+            <h2 className='text-[36px] font-[700] leading-[100%] text-[#151515] text-center mb-[36px]'>Sign in</h2>
             <Form.Item
-                label="Name"
+                label="First Name"
                 name="name"
                 rules={[{ required: true }]}
                 layout="vertical"
                 className='h-[60px] w-[270px] sm:w-[374px] username_label'
             >
-                <Input placeholder='Enter your name'/>
+                <Input placeholder='Enter your name' />
             </Form.Item>
-
+            <Form.Item
+                label="Last Name"
+                name="surname"
+                rules={[{ required: true }]}
+                layout="vertical"
+                className='h-[60px] w-[270px] sm:w-[374px] username_label'
+            >
+                <Input placeholder='Enter your last name' />
+            </Form.Item>
             <Form.Item
                 label="Email"
                 name="email"
@@ -66,21 +72,12 @@ const RegisterForm: React.FC = () => {
 
             <Form.Item
                 label="Password"
-                name="secret"
-                rules={[{ required: true }]}
-                layout="vertical"
-                className='h-[60px] w-[270px] sm:w-[374px] username_label'
-            >
-                <Input placeholder='Enter your password'/>
-            </Form.Item>
-            <Form.Item
-                label="Confirm password"
-                name="confirmPassword"
+                name="password"
                 rules={[{ required: true }]}
                 layout="vertical"
                 className='h-[60px] w-[270px] sm:w-[374px] password_label'
             >
-                <Input placeholder='Enter your confirm password'/>
+                <Input placeholder='Enter your password'/>
             </Form.Item>
 
 
@@ -88,10 +85,9 @@ const RegisterForm: React.FC = () => {
                 <Button 
                     htmlType="submit"
                 >
-                    Button
+                    Sign up
                 </Button>
             </Form.Item>
-            <button onClick={getData}>get books</button>
             <h2 className='text-[14px] text-[#24272C] text-center leading-[120%] font-[300]'>Already signed up? <Link to={'/'} className='text-[#1B28BC]'>Go to sign in.</Link></h2>
         </Form>
     )
